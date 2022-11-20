@@ -10,6 +10,31 @@
     <meta name="description" content="爱心代码">
     <link rel="shortcut icon" href="https://wutaiqiang.github.io/img/favicon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        .icon{
+            fill:currentColor;/* 必须加这个,svg标签才能改变颜色 */
+        }
+        
+        #div_dom{
+            display: none;/* 隐藏dom母体 */
+        }
+        
+        div{
+            position: absolute;/* 必须加这个,div才可以设置位置为鼠标点击位置 */
+        }
+        
+        .opacity1 {
+            opacity: 0.9;/* 透明度0.6 */
+        }
+        
+        .opacity2 {
+            opacity: 0.3;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -29,6 +54,59 @@
       var s = document.getElementsByTagName("script")[0]; 
       s.parentNode.insertBefore(hm, s);
     })();
-    </script>
+</script>
+
+<div id="div_dom">
+    <svg t="1611984899556" class="icon" viewBox="0 0 1169 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1962" width="36.53125" height="32" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <style type="text/css"></style>
+            </defs>
+        <path d="M1045.333 117.333C919.467-6.4 716.8-10.667 584.533 106.667 452.267-10.667 249.6-6.4 123.733 117.333c-128 128-130.133 337.067-2.133 467.2l4.267 4.267 384 384c40.533 40.533 106.666 42.667 149.333 2.133l2.133-2.133 384-384c128-128 130.134-337.067 4.267-465.067-2.133-4.266-2.133-4.266-4.267-6.4z" p-id="1963">
+    </path>
+    </svg>
+</div>
+
+
+<script type="text/javascript">
+    window.onclick = function(e) {
+        //存储需要的颜色
+        let arr = ["#e2352b", "#dc143c", "#ff0000", "#d01d40"];
+        //随机产生一个颜色
+        let heartNum = Math.floor(Math.random() * arr.length);
+        
+        var domss=document.getElementById("div_dom"); // 获得被克隆的节点对象 
+        var div=domss.cloneNode(true);
+        
+        div.style.color=arr[heartNum];
+        
+        div.setAttribute("id", "");//取消id值，变为可见
+        div.setAttribute("class", "opacity0");
+        
+        //获得鼠标的x,y轴的位置，并减去自身宽高的一半，使其能够在爱心的正中心
+        let x = e.pageX - div.offsetWidth / 2;
+        let y = e.pageY - div.offsetHeight / 2;
+        div.style.left = x + "px";
+        div.style.top = y + "px";
+        
+        //将dom追加到body中
+        document.body.appendChild(div);
+        //获得0-1的整数
+        let num = 1;
+        let timer = setInterval(() => {
+            num++;
+            if (num == 10) div.setAttribute("class", "opacity1");
+            if (num == 20) div.setAttribute("class", "opacity2");
+            y -= 5;
+            div.style.left = x + "px";
+            div.style.top = y + "px";
+            //如果超出屏幕范围，则删除此节点
+            if (num == 30) {
+                clearInterval(timer);
+                div.remove();
+            }
+        }, 70);
+    }
+</script>
+
     
 </html>

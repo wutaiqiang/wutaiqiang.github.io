@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>The Art of Efficient Reasoning: Data, Reward, and Optimization</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="The Art of Efficient Reasoning: Data, Reward, and Optimization" />
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+
+<style>
+.relatedthumb {
+  float:left; width: 200px; margin: 3px 10px 7px 0;
+}
+.relatedblock {
+  clear: both;
+  display: inline-block;
+}
+.bold-sc {
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.cite, .citegroup {
+  margin-bottom: 8px;
+}
+:target {
+  background-color: yellow;
+}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FD12LWN557"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
+</script>
+
+</head>
+
+<body class="nd-docs">
+
+    <div class="nd-pageheader">
+    <div class="container">
+        <h1 class="lead">
+        <nobr class="widenobr">The Art of Efficient Reasoning: Data, Reward, and Optimization</nobr>
+        </h1>
+
+        <address>
+        <nobr>Taiqiang Wu</nobr>
+        <!-- <nobr><a href="https://chaofantao.top/" target="_blank">Chaofan Tao</a><sup>1</sup>,</nobr>
+        <nobr>Jiahao Wang<sup>1</sup>,</nobr>
+        <nobr>Zhe Zhao<sup>2</sup>,</nobr>
+        <nobr><a href="https://www.eee.hku.hk/~nwong/" target="_blank">Ngai Wong</a><sup>1</sup></nobr>
+        -->
+        <br>  
+        <nobr>HKU, EEE</nobr>
+        <!-- <nobr><sup>2</sup><a href="https://khoury.northeastern.edu/" target="_blank"
+        >Tencent AI Lab</a></nobr> -->
+        </address>
+    </div>
+    </div><!-- end nd-pageheader -->
+
+    <div class="row justify-content-center text-center">
+        <p>
+        <a href="https://arxiv.org/abs/2404.02657" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="78" src="../img/FRKL_paper.png" style="border:1px solid" alt="ArXiv Preprint thumbnail" data-nothumb=""><br>ArXiv<br>Preprint</a>
+        </p>
+        <p>
+        <a href="https://zhuanlan.zhihu.com/p/690748958" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="78" src="../img/FRKL_zhihu.png" style="border:1px solid" alt="Zhihu thumbnail" data-nothumb=""><br>Zhihu<br>中文版</a>
+        </p>
+
+    <div class="card" style="max-width: 1020px;">
+            <div class="card-block">
+            <p>
+            Recently, there have been many papers trying to distill LLM. 
+            Several papers claim that using Reverse KL is better than Forward KL. 
+            Is this really the case?
+            </p>
+        </div><!--card-block-->
+    </div><!--card-->
+
+
+    <div class="row">
+        <div class="col">
+        <h2>FKL vs RKL</h2>
+        <p>
+        Let us introduce the basic knowledge first.
+        KL divergence is widely used in knowledge distillation (KD). 
+        However, KL divergence is not symmetric as forward KL is not equal to reverse KL. 
+        Here is <a href="https://dibyaghosh.com/blog/probability/kldivergence.html", target="_blank">a blog</a> that well explains it.
+        <br>
+        In formula, forward KL is defined as:
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <mtable columnalign="right left right left right left right left right left right left" rowspacing="3pt" columnspacing="0em 2em 0em 2em 0em 2em 0em 2em 0em 2em 0em" displaystyle="true">
+              <mtr>
+                <mtd>
+                  <mi>arg</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <munder>
+                    <mo movablelimits="true" form="prefix">min</mo>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </munder>
+                  <msub>
+                    <mi>D</mi>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>K</mi>
+                      <mi>L</mi>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">(</mo>
+                  <mi>P</mi>
+                  <mo fence="false" stretchy="false">&#x2016;<!-- ‖ --></mo>
+                  <mi>Q</mi>
+                  <mo stretchy="false">)</mo>
+                </mtd>
+                <mtd>
+                  <mi></mi>
+                  <mo>=</mo>
+                  <mi>arg</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <munder>
+                    <mo movablelimits="true" form="prefix">min</mo>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </munder>
+                  <msub>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi mathvariant="double-struck">E</mi>
+                    </mrow>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>x</mi>
+                      <mo>&#x223C;<!-- ∼ --></mo>
+                      <mi>P</mi>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">[</mo>
+                  <mo>&#x2212;<!-- − --></mo>
+                  <mi>log</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <msub>
+                    <mi>Q</mi>
+                    <mi>&#x03B8;<!-- θ --></mi>
+                  </msub>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">]</mo>
+                  <mo>&#x2212;<!-- − --></mo>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi class="MJX-tex-caligraphic" mathvariant="script">H</mi>
+                  </mrow>
+                  <mo stretchy="false">(</mo>
+                  <mi>P</mi>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">)</mo>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd />
+                <mtd>
+                  <mi></mi>
+                  <mo>=</mo>
+                  <mi>arg</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <munder>
+                    <mo movablelimits="true" form="prefix">min</mo>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </munder>
+                  <msub>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi mathvariant="double-struck">E</mi>
+                    </mrow>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>x</mi>
+                      <mo>&#x223C;<!-- ∼ --></mo>
+                      <mi>P</mi>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">[</mo>
+                  <mo>&#x2212;<!-- − --></mo>
+                  <mi>log</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <msub>
+                    <mi>Q</mi>
+                    <mi>&#x03B8;<!-- θ --></mi>
+                  </msub>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">]</mo>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd />
+                <mtd>
+                  <mi></mi>
+                  <mo>=</mo>
+                  <mi>arg</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <munder>
+                    <mo movablelimits="true" form="prefix">max</mo>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </munder>
+                  <msub>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi mathvariant="double-struck">E</mi>
+                    </mrow>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>x</mi>
+                      <mo>&#x223C;<!-- ∼ --></mo>
+                      <mi>P</mi>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">[</mo>
+                  <mi>log</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <msub>
+                    <mi>Q</mi>
+                    <mi>&#x03B8;<!-- θ --></mi>
+                  </msub>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">]</mo>
+                </mtd>
+              </mtr>
+            </mtable>
+          </math>
+        while reverse KL is defined as:
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <mtable columnalign="right left right left right left right left right left right left" rowspacing="3pt" columnspacing="0em 2em 0em 2em 0em 2em 0em 2em 0em 2em 0em" displaystyle="true">
+              <mtr>
+                <mtd>
+                  <mi>arg</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <munder>
+                    <mo movablelimits="true" form="prefix">min</mo>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </munder>
+                  <msub>
+                    <mi>D</mi>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>K</mi>
+                      <mi>L</mi>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">(</mo>
+                  <mi>Q</mi>
+                  <mo fence="false" stretchy="false">&#x2016;<!-- ‖ --></mo>
+                  <mi>P</mi>
+                  <mo stretchy="false">)</mo>
+                </mtd>
+                <mtd>
+                  <mi></mi>
+                  <mo>=</mo>
+                  <mi>arg</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <munder>
+                    <mo movablelimits="true" form="prefix">min</mo>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </munder>
+                  <msub>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi mathvariant="double-struck">E</mi>
+                    </mrow>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>x</mi>
+                      <mo>&#x223C;<!-- ∼ --></mo>
+                      <msub>
+                        <mi>Q</mi>
+                        <mi>&#x03B8;<!-- θ --></mi>
+                      </msub>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">[</mo>
+                  <mo>&#x2212;<!-- − --></mo>
+                  <mi>log</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <mi>P</mi>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">]</mo>
+                  <mo>&#x2212;<!-- − --></mo>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi class="MJX-tex-caligraphic" mathvariant="script">H</mi>
+                  </mrow>
+                  <mo stretchy="false">(</mo>
+                  <msub>
+                    <mi>Q</mi>
+                    <mi>&#x03B8;<!-- θ --></mi>
+                  </msub>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">)</mo>
+                </mtd>
+              </mtr>
+              <mtr>
+                <mtd />
+                <mtd>
+                  <mi></mi>
+                  <mo>=</mo>
+                  <mi>arg</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <munder>
+                    <mo movablelimits="true" form="prefix">max</mo>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </munder>
+                  <msub>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi mathvariant="double-struck">E</mi>
+                    </mrow>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>x</mi>
+                      <mo>&#x223C;<!-- ∼ --></mo>
+                      <msub>
+                        <mi>Q</mi>
+                        <mi>&#x03B8;<!-- θ --></mi>
+                      </msub>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">[</mo>
+                  <mi>log</mi>
+                  <mo>&#x2061;<!-- ⁡ --></mo>
+                  <mi>P</mi>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">]</mo>
+                  <mo>+</mo>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi class="MJX-tex-caligraphic" mathvariant="script">H</mi>
+                  </mrow>
+                  <mo stretchy="false">(</mo>
+                  <msub>
+                    <mi>Q</mi>
+                    <mrow class="MJX-TeXAtom-ORD">
+                      <mi>&#x03B8;<!-- θ --></mi>
+                    </mrow>
+                  </msub>
+                  <mo stretchy="false">(</mo>
+                  <mi>X</mi>
+                  <mo stretchy="false">)</mo>
+                  <mo stretchy="false">)</mo>
+                </mtd>
+              </mtr>
+            </mtable>
+          </math>
+        <br>
+        
+        </p>
+
+        
+        </div> <!-- col -->
+    </div>  <!--row -->
+</body>
+</html>

@@ -61,13 +61,14 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
         </h1>
 
         <address>
-        <nobr><a href="https://wutaiqiang.github.io/">Taiqiang Wu<sup>1</sup></a></nobr>
-        <nobr>Zenan Xu<sup>2</sup></nobr>
+        <nobr><a href="https://wutaiqiang.github.io/">Taiqiang Wu<sup>1</sup><sup>*</sup></a></nobr>
+        <nobr>Zenan Xu<sup>2</sup><sup>*</sup></nobr>
         <nobr>Bo Zhou<sup>2</sup></nobr>
         <nobr><a href="https://www.eee.hku.hk/~nwong/">Ngai Wong<sup>1</sup></a></nobr>
         <br>  
         <nobr><sup>1</sup>HKU, EEE</nobr> &nbsp
-        <nobr><sup>2</sup>Tencent</nobr>
+        <nobr><sup>2</sup>Tencent</nobr> &nbsp
+        <nobr><sup>*</sup>Equal Contributions</nobr>
         </address>
     </div>
     </div><!-- end nd-pageheader -->
@@ -86,25 +87,24 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
         <a href="https://zhuanlan.zhihu.com/p/690748958" class="d-inline-block p-3 align-top" target="_blank"><img height="100" width="78" src="../img/FRKL_zhihu.png" style="border:1px solid" alt="Zhihu thumbnail" data-nothumb=""><br>Zhihu<br></a>
         </p> -->
     </div>
-    
+
 <div class="card" style="max-width: 1020px; margin: 0 auto 1.5rem auto;">
-          <div class="card-block">
+      <div class="card-block">
           <p>
           In this paper, we systematically investigate the mechanics of efficient reasoning for LLMs, which aims to incentivize short yet accurate thinking trajectories.
           One typically way is reward shaping, which can be formualted as:
           $$reward_i:=f(c_i) \rightarrow reward:=g(c_i,l_i).$$
           The key is to set \(reward_i\) based on both correctness \(c_i\) and length \(l_i\), rather than vanilla RL which based on correctness \(c_i\) only.
           </p>
-        </div><!--card-block-->
-    </div><!--card-->
-
+      </div><!--card-block-->
+</div><!--card-->
 
 <div class="card" style="max-width: 1020px; margin: 0 auto 1.5rem auto;">
-      <div class="card-block">
+  <div class="card-block">
 
     <div class="row">
       <div class="col">
-        <h2> <span style="color: #d9534f;">Q1:</span> How to evaluate a compressed LLM? Performance under low budget?</h2>
+        <h3> <span style="color: #d9534f;">Q1:</span> How to evaluate a compressed LLM? Performance under low budget?</h3>
         <p>
           <span style="color: #4fd5d9;">Answer:</span> It is quite dangerous to evaluate LLM via performance under low budget. 
           Particularly when the truncation rate is high, the trained LLM tends to overfit to short output sequences. 
@@ -115,69 +115,101 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
         <p>
           In this paper, we advocate for more fine-grained metrics, including length distribution conditioned on correctness (length for correct and incorrect rollouts) and performance across a wide spectrum of token budgets ranging from 2k to 32k.
         </p>
+      </div>
     </div>
-    </div>
-
 
     <div class="row">
       <div class="col">
-        <h2> <span style="color: #d9534f;">Q2:</span> Can LLM trained on domain A perform well at domain B?</h2>
+        <h3> <span style="color: #d9534f;">Q2:</span> Can LLM trained on domain A perform well at domain B?</h3>
         <p>
           <span style="color: #4fd5d9;">Answer:</span> 
           Fortunately, the learn length inductive bias can be generalized across difficulties and domains.
           We attibuted such success to the minimal perturbation on model distributions thanks to RL optimization.
+          Please check the paper for more detailed results.
         </p>
+      </div>
     </div>
-    </div>
 
-    </div><!--card-block-->
-    </div><!--card-->
-
-
+  </div><!--card-block-->
+</div><!--card-->
 
 
 <div class="card" style="max-width: 1020px; margin: 0 auto 1.5rem auto;">
-      <div class="card-block">
+  <div class="card-block">
+      <div class="row">
+        <div class="col">
+          <h3> <span style="color: #d9534f;">Takeaways #1: Two-stage Paradigm</span></h3>
+          <p>
+            <b>Stage 1: Length Adaptation.</b> The optimization of constraint satisfaction dominates this initial phase.
+            Driven by the length penalty, the model rapidly adjusts its output distribution to avoid zero-reward truncation.
+          </p>
+          <p>
+            <b>Stage 2: Reasoning Refinement.</b> Once the rollout length stabilizes within the target budget, the training enters a stationary phase regarding length, shifting focus to performance optimization.
+            In this stage, the length curves plateau, demonstrating that the model has successfully adapted to the hard constraints on output length.
+          </p>
+          <p>
+          <span style="color: #4fd5d9;">The LLM would fit the length constrain first, which is much easier than correctness. </span>
+          Thus the optimization trajectories can be appromoximated as \(max_{c_i}\left\{max_{l_i}\left[g(c_i,l_i)\right]\right\}\).
+          </p>
+        </div>
+      </div>
 
-    <div class="row">
-      <div class="col">
-        <h2> <span style="color: #d9534f;">Takeaways #1: Two-stage Paradigm</span></h2>
-        <p>
-          <b>Stage 1: Length Adaptation.</b> The optimization of constraint satisfaction dominates this initial phase.
-          Driven by the length penalty, the model rapidly adjusts its output distribution to avoid zero-reward truncation.
-        </p>
-        <p>
-          <b>Stage 2: Reasoning Refinement.</b> Once the rollout length stabilizes within the target budget, the training enters a stationary phase regarding length, shifting focus to performance optimization.
-          In this stage, the length curves plateau, demonstrating that the model has successfully adapted to the hard constraints on output length.
-        </p>
-    </div>
-    </div>
+      <div class="row">
+        <div class="col">
+          <h3> <span style="color: #d9534f;">Takeaways #2: Insights on Training Recipts</span></h3>
+          <p>
+          We select the truncation strategy on Deepseek-Distilled-Qwen-1.5B model. For the rollouts sampled at \(L_R\), only the correct and shorter than \(L_T\) are considered as positive samples.
+          </p>
+          <p>
+            <b>Insight on Data: </b> 
+            The key is to ensure sufficient and effective rewards.
+            Training on easier prompts allows LLMs to focus on length reduction without compromising performance.
+            Larger rollout \(N\) would be better if computational resource allows.
+          </p>
+          <p>
+            <b>Insight on Reward: </b> 
+            Not penalizing overlong correct rollouts leads to higher performance, but also slightly longer outputs.
+            Sampling at target length (\(L_R=L_T\)) achieves a better trade-off via avoiding the length trap.
+          </p>
+          <p>
+            <b>Insight on Optimization: </b> 
+            Appropriate staleness can accelerate convergence without harming accuracy (before 800 steps), but also introduces latent instability, manifested as rising entropy and uncontrolled length drift.
+            A moderate staleness is recommended.
+          </p>
+        </div>
+      </div>
 
-        <div class="row">
-      <div class="col">
-        <h2> <span style="color: #d9534f;">Takeaways #2: Insights</span></h2>
-        <p>
-          <b>Insight on Data: </b> 
-          The key is to ensure sufficient and effective rewards.
-          Training on easier prompts allows LLMs to focus on length reduction without compromising performance.
-          Larger rollout \(N\) would be better if computational resource allows.
-        </p>
-        <p>
-          <b>Insight on Reward: </b> 
-          Not penalizing overlong correct rollouts leads to higher performance, but also slightly longer outputs.
-          Sampling at target length (\(L_R=L_T\)) achieves a better trade-off via avoiding the length trap.
-        </p>
-        <p>
-          <b>Insight on Optimization: </b> 
-          Appropriate staleness can accelerate convergence without harming accuracy (before 800 steps), but also introduces latent instability, manifested as rising entropy and uncontrolled length drift.
-          A moderate staleness is recommended.
-        </p>
-    </div>
-    </div>
+      <div class="row">
+        <div class="col">
+          <h3> <span style="color: #d9534f;">Takeaways #3: Compressed Qwen3 Models</span></h3>
+          We further apply our insights to the Qwen3 models. The weigths are opensoured and can be found at <a href="">this repo</a>.
+        </div>
+      </div>
 
-        </div><!--card-block-->
-    </div><!--card-->
+    </div><!--card-block-->
+</div><!--card-->
 
+
+<!-- <h3>How to Cite</h3> -->
+
+<div class="card", style="max-width: 1020px; margin: 0 auto 1.5rem auto;">
+<h3 class="card-header">bibliography</h3>
+  <div class="card-block">
+  <p style="text-indent: -3em; margin-left: 3em;" class="card-text clickselect">
+  Taiqiang Wu, Zenan Xu, Bo Zhou, Ngai Wong. "<em>The Art of Efficient Reasoning: Data, Reward, and Optimization.</em>" Arxiv.
+  </p>
+  </div>
+<h3 class="card-header">bibtex</h3>
+  <div class="card-block">
+  <pre class="card-text clickselect">@article{wu2026art,
+    title={The Art of Efficient Reasoning: Data, Reward, and Optimization}, 
+    author={Taiqiang Wu and Zenan Xu and Bo Zhou and Ngai Wong},
+  }
+  </pre>
+  </div>
+</div> <!--card-block-->
+
+<p></p>
 
 </body>
 </html>

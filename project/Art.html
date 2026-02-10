@@ -170,6 +170,7 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
             <b>Insight on Reward: </b> 
             Not penalizing overlong correct rollouts leads to higher performance, but also slightly longer outputs.
             Sampling at target length (\(L_R=L_T\)) achieves a better trade-off via avoiding the length trap.
+            Typically, the positive rollouts are shorter than negative ones, which <b>implictly</b> encourges the model to be short yet accurate.
           </p>
           <p>
             <b>Insight on Optimization: </b> 
@@ -182,7 +183,16 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
       <div class="row">
         <div class="col">
           <h3> <span style="color: #d9534f;">Takeaways #3: Compressed Qwen3 Models</span></h3>
+          <p>
           We further apply our insights to the Qwen3 models. The weigths are opensoured and can be found at <a href="">this repo</a>.
+          </p>
+          <span style="color: #4fd5d9;">Suggestions for hyperparameters:</span>
+          <p>
+          <ul>
+            <li>Rollout \(N\): As large as possible. We recommend 24. </li>
+            <li>\(L_R\) and \(L_T\): One typically value is 8k. If the output length drop too fast, please increase them.</li>
+          </ul>
+          </p>
         </div>
       </div>
 

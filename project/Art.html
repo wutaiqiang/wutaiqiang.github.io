@@ -170,6 +170,75 @@ h1, h2, h3 {
   padding: 10px 12px;
 }
 
+.results-wrap {
+  margin: 0.9rem 0 1rem;
+  overflow-x: auto;
+}
+
+.qwen-results {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  border: 1px solid #d9e6df;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.qwen-results thead th {
+  background: #e7f0eb;
+  color: #143429;
+  font-weight: 700;
+  text-align: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid #d3e2da;
+}
+
+.qwen-results td {
+  padding: 9px 12px;
+  border-top: 1px solid #e7efea;
+}
+
+.qwen-results td:first-child {
+  font-weight: 600;
+}
+
+.qwen-results .model-row td {
+  background: #f7faf8;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #1b3f32;
+}
+
+.qwen-results .ours-row td {
+  background: #edf5ef;
+}
+
+.qwen-results td:not(:first-child) {
+  text-align: center;
+}
+
+.results-caption {
+  margin: 0.65rem 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.len-delta {
+  color: #c33a32;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.metric-delta {
+  color: #2d6c54;
+  font-size: 0.88em;
+  white-space: nowrap;
+}
+
 .card-header {
   background: linear-gradient(120deg, #0d5a4a, #096855);
   color: #fff;
@@ -375,6 +444,39 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
           <p>
           We further apply our insights to Qwen3 models. The weights are open-sourced and can be found at <a href="">this repo</a>.
           </p>
+          <div class="results-wrap">
+            <table class="qwen-results" aria-label="Performance on AIME 2025 for Qwen3 models">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Mean@8&#8593;</th>
+                  <th>Pass@8&#8593;</th>
+                  <th>Length&#8595;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="model-row"><td colspan="4"><em>Qwen3-0.6B</em></td></tr>
+                <tr><td>Vanilla</td><td>13.33</td><td>26.67</td><td>14.9k</td></tr>
+                <tr class="ours-row"><td>Ours (step 640)</td><td>24.58 <span class="metric-delta">(+11.25)</span></td><td>36.67 <span class="metric-delta">(+10.00)</span></td><td>8.9k <span class="len-delta">(&#8595;40.3%)</span></td></tr>
+                <tr class="model-row"><td colspan="4"><em>Qwen3-1.7B</em></td></tr>
+                <tr><td>Vanilla</td><td>35.00</td><td>60.00</td><td>17.7k</td></tr>
+                <tr class="ours-row"><td>Ours (step 560)</td><td>38.75 <span class="metric-delta">(+3.75)</span></td><td>60.00</td><td>11.2k <span class="len-delta">(&#8595;36.7%)</span></td></tr>
+                <tr class="model-row"><td colspan="4"><em>Qwen3-4B-Instruct-2507</em></td></tr>
+                <tr><td>Vanilla</td><td>45.42</td><td>66.67</td><td>9.1k</td></tr>
+                <tr class="ours-row"><td>Ours (step 1440)</td><td>46.67 <span class="metric-delta">(+1.25)</span></td><td>70.00 <span class="metric-delta">(+3.33)</span></td><td>4.8k <span class="len-delta">(&#8595;47.3%)</span></td></tr>
+                <tr class="model-row"><td colspan="4"><em>Qwen3-4B-Thinking-2507</em></td></tr>
+                <tr><td>Vanilla</td><td>75.83</td><td>90.00</td><td>20.9k</td></tr>
+                <tr class="ours-row"><td>Ours (step 200)</td><td>76.25 <span class="metric-delta">(+0.42)</span></td><td>86.67</td><td>16.0k <span class="len-delta">(&#8595;23.4%)</span></td></tr>
+                <tr class="model-row"><td colspan="4"><em>Qwen3-8B</em></td></tr>
+                <tr><td>Vanilla</td><td>65.83</td><td>86.67</td><td>17.9k</td></tr>
+                <tr class="ours-row"><td>Ours (step 100)</td><td>67.08 <span class="metric-delta">(+1.25)</span></td><td>83.33</td><td>12.8k <span class="len-delta">(&#8595;28.5%)</span></td></tr>
+                <tr class="model-row"><td colspan="4"><em>Qwen3-30B-A3B-Instruct-2507</em></td></tr>
+                <tr><td>Vanilla</td><td>60.83</td><td>83.33</td><td>6.9k</td></tr>
+                <tr class="ours-row"><td>Ours (step 600)</td><td>60.83</td><td>76.67</td><td>5.1k <span class="len-delta">(&#8595;26.1%)</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="results-caption">Table: Performance on AIME'25 for Qwen3 models.</p>
           <div class="takeaway-note">
           <span class="answer">Suggestions for hyperparameters:</span>
           <ul>

@@ -481,7 +481,9 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
           <span class="answer">Suggestions for hyperparameters:</span>
           <ul>
             <li>Rollout \(N\): As large as possible. We recommend 24.</li>
-            <li>\(L_R\) and \(L_T\): A typical value is 8k. If the output length drops too fast, please increase them.</li>
+            <li>\(L_R\) and \(L_T\): A typical value is 8k. If the output length drops too fast, please increase them.
+              Particularly, for Instruct model, try to set \(L_T\) slightly lower than \(L_R\) to push model be shorter.
+            </li>
           </ul>
           </div>
         </div>

@@ -291,13 +291,15 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
 
     <div class="row">
       <div class="col">
-        <h3 class="section-title">Q1: How to evaluate a compressed LLM under low token budgets?</h3>
+        <h3 class="section-title">Q1: How to evaluate a compressed LLM? Performance under low token budgets?</h3>
         <p>
           <span class="answer">Answer:</span> It is risky to evaluate an LLM only via performance under low budgets.
-          Particularly when the truncation rate is high, the trained LLM tends to overfit to short output sequences. 
-          Consequently, the scaling law may fail, where increasing the token budget yields only marginal gains.
-          In contrast, the original LLM demonstrates substantial benefits from a scaled token budget. 
+          Particularly when the truncation rate is high, the trained LLM tends to overfit to short output sequences and suffers from the reasoning collaspe issue. 
+          Consequently, the scaling law may fail, i.e., increasing the token budget yields only marginal gains.
+          In contrast, the original LLM demonstrates substantial benefits from a scaled token budget.
+          It is definitly not what we excepted.
           Ideally, we want the LLM to retain high-ceiling performance while shifting its output distribution to shorter token regions.
+          Thus, we propose to evalute the LLM under a wide token-budget spectrum.
         </p>
         <p>
           In this paper, we advocate more fine-grained metrics, including length distributions conditioned on correctness (length for correct and incorrect rollouts) and performance across a wide token-budget spectrum from 2k to 32k.
@@ -393,7 +395,7 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
 <h3 class="card-header">bibliography</h3>
   <div class="card-block">
   <p style="text-indent: -3em; margin-left: 3em;" class="card-text clickselect">
-  Taiqiang Wu, Zenan Xu, Bo Zhou, Ngai Wong. "<em>The Art of Efficient Reasoning: Data, Reward, and Optimization.</em>" Arxiv.
+  Taiqiang Wu, Zenan Xu, Bo Zhou, Ngai Wong. "<em>The Art of Efficient Reasoning: Data, Reward, and Optimization.</em>" Arxiv, 2602.20945
   </p>
   </div>
 <h3 class="card-header">bibtex</h3>
@@ -401,6 +403,8 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
   <pre class="card-text clickselect">@article{wu2026art,
     title={The Art of Efficient Reasoning: Data, Reward, and Optimization}, 
     author={Taiqiang Wu and Zenan Xu and Bo Zhou and Ngai Wong},
+    year={2026},
+    url={https://arxiv.org/pdf/2602.20945}
   }
   </pre>
   </div>

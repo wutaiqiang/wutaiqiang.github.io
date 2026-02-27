@@ -76,9 +76,21 @@ h1, h2, h3 {
 .resource-grid {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  max-width: 760px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 100%;
   margin: -1.1rem auto 1.4rem;
+}
+
+@media (max-width: 991px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .resource-card {

@@ -1,4 +1,20 @@
 $(function () {
+    // theme toggle
+    const root = document.documentElement;
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
+    root.setAttribute("data-theme", initialTheme);
+    $(".light-toggle").attr("aria-pressed", initialTheme === "dark");
+
+    $(".light-toggle").click(function () {
+        const current = root.getAttribute("data-theme") || "light";
+        const next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        $(this).attr("aria-pressed", next === "dark");
+    })
+
     // menu
     $(".menus_icon").click(function () {
         if ($(".header_wrap").hasClass("menus-open")) {

@@ -38,6 +38,20 @@
                     <a class="site-page" href="https://wutaiqiang.github.io/gallery.html" target="_blank" rel="noopener">Gallery</a>
                 </li>
             </ul>
+            <button class="light-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+                <span class="light-toggle__icon light-toggle__sun" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="14" height="14" role="img">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke-width="2" fill="none" stroke="currentColor" stroke-linecap="round"></path>
+                    </svg>
+                </span>
+                <span class="light-toggle__icon light-toggle__moon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="14" height="14" role="img">
+                        <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a9 9 0 1 0 11.5 11.5z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                <span class="light-toggle__thumb" aria-hidden="true"></span>
+            </button>
         </div>
     </header>
     <main id="page_main">
@@ -56,27 +70,7 @@
                         <a class="link-chip" href="https://www.xiaohongshu.com/user/profile/61dc66e60000000010009c7b" target="_blank" rel="noopener">Xiaohongshu</a>
                     </div>
                 </div>
-                <div class="hero-card">
-                    <img class="hero-avatar" src="img/wtq.jpg" onerror="this.onerror=null;this.src='img/wtq.jpg'" alt="Taiqiang Wu">
-                    <div class="hero-meta">
-                        <div class="meta-row">
-                            <span class="meta-label">Affiliation</span>
-                            <span>HKU, NGai Lab</span>
-                        </div>
-                        <div class="meta-row">
-                            <span class="meta-label">Interests</span>
-                            <span>Efficient LLMs, RL</span>
-                        </div>
-                        <!-- <div class="meta-row">
-                            <span class="meta-label">Teaching</span>
-                            <span>HKU ELEC 3443 TA (2023–2025)</span>
-                        </div> -->
-                        <div class="meta-row">
-                            <span class="meta-label">Contact</span>
-                            <span>takiwu@connect.hku.hk</span>
-                        </div>
-                    </div>
-                </div>
+                <img class="hero-avatar hero-avatar--solo" src="img/wtq.jpg" onerror="this.onerror=null;this.src='img/wtq.jpg'" alt="Taiqiang Wu">
             </section>
             <article class="content-card">
                 <h2 id="Biography" class="section-title">
@@ -91,7 +85,6 @@
                     In 2020, I received my bachelor degree in Department of Automation from Tsinghua University.
                     My major research interests lie in Effcient Model methods for Large Language Models.
                     Recently, I focus on the efficient reasoning via RL.
-                    <!-- I also served as a TA for HKU ELEC 3443 from 2023 to 2025. -->
                 <br/>
 
                 <!-- <p>
@@ -108,7 +101,7 @@
                 </div>
                 <ul id="news-list" class="news-list is-collapsed">
                     <li>
-                        2026.02 - Release one report on LLM efficient reasoning via reward shaping. We losslessly compress CoT of Qwen3 models.[<a target="_blank" rel="noopener" href="https://wutaiqiang.github.io/project/Art">Project</a>] 
+                        2026.02 - Release one report on LLM efficient reasoning via reward shaping. We losslessly compress CoT of Qwen3 models. [<a target="_blank" rel="noopener" href="https://wutaiqiang.github.io/project/Art">Project</a>] 
                     </li>
                     <li>
                         2025.11 - Present a talk about "Rethinking LLM Post-train at Weight Level". [<a target="_blank" rel="noopener" href="https://www.techbeat.net/talk-info?id=1011">TechBeat</a>]
@@ -202,9 +195,9 @@
                             <li>
                                 <em>Arxiv</em>
                                 <span class="pub-tag tag-preprint">Preprint</span>
-                                [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2509.23595">pdf</a>] 
-                                [<a target="_blank" rel="noopener" href="https://github.com/wutaiqiang/Timber">code</a>]
-                                [<a target="_blank" rel="noopener" href="https://huggingface.co/collections/taki555/timber-68db45e4f4c64c1bfe52b492">weight</a>]
+                                [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2509.23595">Paper</a>] 
+                                [<a target="_blank" rel="noopener" href="https://github.com/wutaiqiang/Timber">Code</a>]
+                                [<a target="_blank" rel="noopener" href="https://huggingface.co/collections/taki555/timber-68db45e4f4c64c1bfe52b492">Weight</a>]
                             </li>
                         </ul>
                     </li>
@@ -481,7 +474,7 @@
     </div>
     <footer id="page_footer">
         <div class="footer_wrap">
-            <div class="copyright">&copy;2020 - 2026 by Taiqiang Wu. Special love to my girlfriend  <a target="_blank" rel="noopener" href="https://wutaiqiang.github.io/loveMove/index.html">Lei Wang </a> </div>
+            <div class="copyright">&copy;2020 - 2026 by Taiqiang Wu. Special love to my wife  <a target="_blank" rel="noopener" href="https://wutaiqiang.github.io/loveMove/index.html">Lei Wang </a> </div>
             <div class="theme-info">
                 Powered by 
                 <a target="_blank" href="https://hexo.io" rel="nofollow noopener">Hexo</a>

@@ -1,19 +1,23 @@
 $(function () {
-    // resize window
-    $(window).resize(function () {
-        if ($(window).width() < 1280 && $(window).width()>540) {
-            $(".page").css({"width": $(window).width() - $(".side-card").width() - 90, "float": "left"})
-        } else {
-            $(".page").removeAttr("style")
-        }
-    });
-
     // menu
     $(".menus_icon").click(function () {
         if ($(".header_wrap").hasClass("menus-open")) {
             $(".header_wrap").removeClass("menus-open").addClass("menus-close")
         } else {
             $(".header_wrap").removeClass("menus-close").addClass("menus-open")
+        }
+    })
+
+    // news toggle
+    $(".news-toggle").click(function () {
+        var target = $(this).data("target");
+        var $list = $(target);
+        if ($list.hasClass("is-collapsed")) {
+            $list.removeClass("is-collapsed").addClass("is-expanded");
+            $(this).text("Show less").attr("aria-expanded", "true");
+        } else {
+            $list.removeClass("is-expanded").addClass("is-collapsed");
+            $(this).text("Show all").attr("aria-expanded", "false");
         }
     })
 
@@ -25,18 +29,8 @@ $(function () {
         }
     })
 
-    $(".site-nav").click(function () {
-        if ($(".nav").hasClass("nav-open")) {
-            $(".nav").removeClass("nav-open").addClass("nav-close")
-        } else {
-            $(".nav").removeClass("nav-close").addClass("nav-open")
-        }
-    })
-
     $(document).click(function(e){
         var target = $(e.target);
-        if(target.closest(".nav").length != 0) return;
-        $(".nav").removeClass("nav-open").addClass("nav-close")
         if(target.closest(".author-links").length != 0) return;
         $(".author-links").removeClass("is-open").addClass("is-close")
         if((target.closest(".menus_icon").length != 0) || (target.closest(".menus_items").length != 0)) return;
@@ -78,9 +72,6 @@ $(function () {
             }
             if ($(".author-links").hasClass("is-open")) {
                 $(".author-links").removeClass("is-open").addClass("is-close")
-            }
-            if ($(".nav").hasClass("nav-open")) {
-                $(".nav").removeClass("nav-open").addClass("nav-close")
             }
         }
     });

@@ -402,7 +402,8 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
           <span class="answer">Answer:</span> 
           Fortunately, the learned length inductive bias can generalize across difficulties and domains.
           We attribute this to minimal perturbation of model distributions under RL optimization.
-          Please check the paper for more detailed results.
+          We further report results on <b>private benchamarks</b>, and the results are consistent with our expectations.
+          Please check the Appendix in the paper for more detailed results.
         </p>
       </div>
     </div>
@@ -492,6 +493,9 @@ gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
                 <tr class="model-row"><td colspan="4"><em>Qwen3-30B-A3B-Instruct-2507</em></td></tr>
                 <tr><td>Vanilla</td><td>60.83</td><td>83.33</td><td>6.9k</td></tr>
                 <tr class="ours-row"><td>Ours (step 600)</td><td>60.83</td><td>76.67</td><td>5.1k <span class="len-delta">(&#8595;26.1%)</span></td></tr>
+                <tr class="model-row"><td colspan="4"><em>Qwen3-30B-A3B-Thinking-2507</em></td></tr>
+                <tr><td>Vanilla</td><td>84.17</td><td>96.67</td><td>17.3k</td></tr>
+                <tr class="ours-row"><td>Ours (step 120)</td><td>86.25 <span class="metric-delta">(+2.08)</span></td><td>96.67</td><td>14.8k <span class="len-delta">(&#8595;14.5%)</span></td></tr>
               </tbody>
             </table>
           </div>
